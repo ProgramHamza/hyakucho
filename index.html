@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROJECT HYAKUCHŌ — 百蝶</title>
+  <meta name="description" content="Wearable Autonomous Butterfly Swarm Platform - Official Overview">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Styling tokens */
+    :root {
+      --sakura: #F7B7C3;
+      --sakura-pale: #FFD9E2;
+      --sakura-deep: #e8919f;
+      --pearl: #f5f0ee;
+      --silver: #c8c4c0;
+      --sky: #a8d4f0;
+      --sky-deep: #6bb3e0;
+      --warm-white: #faf6f2;
+      --text-dark: #3a3535;
+      --text-mid: #7a7070;
+      --text-light: #b0a5a0;
+      --font-en: 'Outfit', sans-serif;
+      --font-jp: 'Noto Serif JP', serif;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--warm-white);
+      color: var(--text-dark);
+      font-family: var(--font-en);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Cherry blossom petal animation */
+    .sakura-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      background: linear-gradient(135deg, var(--sakura-pale), var(--sakura));
+      border-radius: 100% 0 100% 100%;
+      opacity: 0.7;
+      transform-origin: center;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-20px) rotate(0deg) scale(0.6);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(105vh) translateX(100px) rotate(360deg) scale(0.6);
+        opacity: 0;
+      }
+    }
+
+    /* Main Container */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-text {
+      font-weight: 300;
+      font-size: 0.95rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    .logo-stamp {
+      font-family: var(--font-jp);
+      background: var(--sakura);
+      color: white;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: 0 3px 8px rgba(247,183,195,0.4);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-mid);
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--sakura-deep);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 0 6rem 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-pretitle {
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sakura-deep);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      animation: fadeInDown 1s ease;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      font-weight: 100;
+      letter-spacing: 0.25em;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .hero-title span {
+      font-family: var(--font-jp);
+      font-weight: 200;
+      color: var(--sakura-deep);
+      display: block;
+      margin-top: 0.5rem;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      letter-spacing: 0.15em;
+    }
+
+    .hero-desc {
+      max-width: 700px;
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      font-weight: 300;
+      color: var(--text-mid);
+      margin-bottom: 3.5rem;
+      line-height: 1.8;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .cta-container {
+      display: flex;
+      gap: 1.5rem;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1.1rem 2.8rem;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 40px;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--text-dark);
+      color: var(--warm-white);
+      border: 1px solid var(--text-dark);
+      box-shadow: 0 10px 25px rgba(58,53,53,0.15);
+    }
+
+    .btn-primary:hover {
+      background: var(--sakura-deep);
+      border-color: var(--sakura-deep);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(232,145,159,0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.7);
+      color: var(--text-dark);
+      border: 1px solid rgba(0,0,0,0.1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-dark);
+      background: rgba(255,255,255,0.9);
+      transform: translateY(-3px);
+    }
+
+    /* Grid Section */
+    .features {
+      padding: 6rem 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--sakura);
+      margin: 1rem auto 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.4);
+      border: 1px solid rgba(0,0,0,0.03);
+      padding: 3rem 2.5rem;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.4s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--sakura-pale);
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 15px 35px rgba(247,183,195,0.12);
+    }
+
+    .feature-num {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--sakura-deep);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    .feature-name {
+      font-family: var(--font-jp);
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+      color: var(--text-dark);
+    }
+
+    .feature-desc {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* Architecture / Diagram */
+    .architecture {
+      padding: 6rem 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .diagram-container {
+      background: rgba(255,255,255,0.3);
+      border: 1px solid rgba(0,0,0,0.04);
+      border-radius: 16px;
+      padding: 4rem 2rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .diagram-step {
+      text-align: center;
+      flex: 1;
+      min-width: 180px;
+      max-width: 230px;
+      position: relative;
+      padding: 1rem;
+    }
+
+    .step-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(0,0,0,0.05);
+      margin: 0 auto 1.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--sakura-deep);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+      transition: all 0.3s;
+    }
+
+    .diagram-step:hover .step-icon {
+      background: var(--sakura);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(247,183,195,0.3);
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .step-desc {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    .diagram-arrow {
+      font-size: 1.5rem;
+      color: var(--text-light);
+      align-self: center;
+    }
+
+    @media (max-width: 768px) {
+      .diagram-arrow {
+        transform: rotate(90deg);
+        margin: 0.5rem 0;
+      }
+      .diagram-container {
+        flex-direction: column;
+      }
+    }
+
+    /* Specs Section */
+    .specs {
+      padding: 6rem 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .specs-matrix {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1px;
+      background: rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .spec-item {
+      background: var(--warm-white);
+      padding: 2.5rem 2rem;
+      transition: background 0.3s;
+    }
+
+    .spec-item:hover {
+      background: rgba(255,255,255,0.5);
+    }
+
+    .spec-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .spec-value {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--text-dark);
+      letter-spacing: 0.05em;
+    }
+
+    .spec-value span {
+      font-size: 0.8rem;
+      color: var(--sakura-deep);
+      font-family: var(--font-jp);
+      margin-left: 0.4rem;
+    }
+
+    /* Poetry Section */
+    .poetry {
+      padding: 8rem 0;
+      background: linear-gradient(to bottom, transparent, rgba(247,183,195,0.05), transparent);
+      text-align: center;
+    }
+
+    .poem-container {
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: var(--font-jp);
+      font-weight: 200;
+      font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+      line-height: 2.2;
+      color: var(--text-mid);
+    }
+
+    .poem-container h3 {
+      font-family: var(--font-en);
+      font-weight: 200;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .poem-container .jp-title {
+      font-size: 1.5rem;
+      color: var(--sakura-deep);
+      margin-bottom: 3rem;
+      letter-spacing: 0.15em;
+    }
+
+    .poem-line {
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 0;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      text-align: center;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--text-light);
+      text-transform: uppercase;
+    }
+
+    .footer-credits {
+      margin-bottom: 1.5rem;
+    }
+
+    .vercel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-mid);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.65rem;
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .vercel-badge:hover {
+      border-color: var(--sakura);
+      color: var(--sakura-deep);
+      box-shadow: 0 4px 10px rgba(247,183,195,0.15);
+    }
+
+    .vercel-badge svg {
+      width: 10px;
+      height: 10px;
+      fill: currentColor;
+    }
+
+    /* Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-container" id="sakura-bg"></div>
+
+  <div class="wrapper">
+    <!-- Header -->
+    <header>
+      <div class="logo-container">
+        <div class="logo-stamp">百</div>
+        <div class="logo-text">PROJECT HYAKUCHŌ</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#concept" class="nav-link">Concept</a>
+        <a href="#architecture" class="nav-link">System</a>
+        <a href="#specs" class="nav-link">Specs</a>
+        <a href="/experience" class="nav-link" style="color: var(--sakura-deep); font-weight: 500; border: 1px solid var(--sakura-pale); padding: 0.4rem 1.2rem; border-radius: 20px; background: rgba(255,255,255,0.4);">Launch Reveal</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-pretitle">Autonomous Swarm Robotics & Wearable Tech</div>
+      <h1 class="hero-title">
+        Project Hyakuchō
+        <span>百蝶</span>
+      </h1>
+      <p class="hero-desc">
+        A wearable, autonomous butterfly swarm platform merging robotic precision with high-fashion aesthetics. One hundred micro-drones launch from an inductive docking harness, tracking and swirling to human gestures in a perfect mechanical dance.
+      </p>
+      <div class="cta-container">
+        <a href="/experience" class="btn btn-primary">Enter Reveal</a>
+        <a href="#concept" class="btn btn-secondary">Explore Concept</a>
+      </div>
+    </section>
+
+    <!-- Grid Features -->
+    <section class="features" id="concept">
+      <div class="section-title">Core Subsystems</div>
+      <div class="features-grid">
+        <!-- Nest -->
+        <div class="feature-card">
+          <div class="feature-num">01 / DOCKING NEST</div>
+          <div class="feature-name">The Launchpad</div>
+          <div class="feature-desc">
+            An ergonomic, lightweight backpack harness serving as the swarm's nest. Built with brushed aluminum details and voice-coil docking cell bays, featuring inductive fast-charging to ensure continuous swarm readiness.
+          </div>
+        </div>
+        <!-- Swarm -->
+        <div class="feature-card">
+          <div class="feature-num">02 / SWARM ASSEMBLY</div>
+          <div class="feature-name">Translucent Micro-drones</div>
+          <div class="feature-desc">
+            A flock of 80 to 100 bio-degradable composite butterflies. Features sub-gram electromagnetic actuators and custom wings with 72% translucency that glow soft sakura-pink under flight, creating an organic trail effect.
+          </div>
+        </div>
+        <!-- Gesture Engine -->
+        <div class="feature-card">
+          <div class="feature-num">03 / GESTURE SYNAPSE</div>
+          <div class="feature-name">Spatial Interaction</div>
+          <div class="feature-desc">
+            Sub-millimeter tracking tracks the wearer's arm and hands. Local edge algorithms translate pointing, sweeping, raising, and closing hands into swarm trajectories, seamlessly blurring the line between body and machine.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture" id="architecture">
+      <div class="section-title">System Architecture</div>
+      <div class="diagram-container">
+        <!-- Step 1 -->
+        <div class="diagram-step">
+          <div class="step-icon">👋</div>
+          <div class="step-title">1. Gesture Capture</div>
+          <div class="step-desc">Sensors map skeletal arm posture and hand gestures at 120Hz.</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <!-- Step 2 -->
+        <div class="diagram-step">
+          <div class="step-icon">⚙️</div>
+          <div class="step-title">2. Edge Control</div>
+          <div class="step-desc">Local vector fields compute swarm alignment, cohesion, and obstacle avoidance.</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <!-- Step 3 -->
+        <div class="diagram-step">
+          <div class="step-icon">⚡</div>
+          <div class="step-title">3. Coil Actuation</div>
+          <div class="step-desc">Drones receive telemetry, flapping wings asynchronously via sub-gram coils.</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <!-- Step 4 -->
+        <div class="diagram-step">
+          <div class="step-icon">🌸</div>
+          <div class="step-title">4. Kinetic Form</div>
+          <div class="step-desc">The swarm forms spatial halos, spirals, and waves centered on the wearer.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spec Matrix -->
+    <section class="specs" id="specs">
+      <div class="section-title">Technical Specifications</div>
+      <div class="specs-matrix">
+        <div class="spec-item">
+          <div class="spec-label">Swarm Density</div>
+          <div class="spec-value">80 — 100<span>Units</span></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Wing Translucency</div>
+          <div class="spec-value">72%<span>Sakura Pink</span></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Telemetry Latency</div>
+          <div class="spec-value">~ 8.5ms<span>Real-time</span></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Harness Actuators</div>
+          <div class="spec-value">Dual Panel<span>Voice-coil</span></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Flocking Protocol</div>
+          <div class="spec-value">Local Vector Fields<span>Autonomous</span></div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Charging Mechanism</div>
+          <div class="spec-value">Magnetic Nest<span>Inductive</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Poetry Section -->
+    <section class="poetry">
+      <div class="poem-container">
+        <h3>Project Hyakuchō</h3>
+        <div class="jp-title">百蝶</div>
+        <div class="poem-line">The butterflies did not obey because they were programmed.</div>
+        <div class="poem-line">They obeyed because the illusion was perfect.</div>
+        <div class="poem-line">A single gesture disturbed the stillness.</div>
+        <div class="poem-line">The nest awakened.</div>
+        <div class="poem-line">One wing became ten.</div>
+        <div class="poem-line">Ten became a hundred.</div>
+        <div class="poem-line">The air itself seemed to bloom.</div>
+        <div class="poem-line">They danced between light and shadow.</div>
+        <div class="poem-line">Where the hand pointed, the swarm followed.</div>
+        <div class="poem-line">When the final command came, they returned home.</div>
+        <div class="poem-line">In that moment, technology disappeared.</div>
+        <div class="poem-line">Only wonder remained.</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-credits">
+        © 2026 Project Hyakuchō. Built with passion and high fidelity.
+      </div>
+      <div>
+        <a href="https://vercel.com" target="_blank" class="vercel-badge">
+          <svg viewBox="0 0 116 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M57.5 0L115 100H0L57.5 0Z" />
+          </svg>
+          Deployed on Vercel
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Falling Sakura Petals logic (Pure CSS animation injector for high performance)
+    const container = document.getElementById('sakura-bg');
+    const petalCount = 35;
+
+    for (let i = 0; i < petalCount; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      
+      // Randomize initial positions & animation durations
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      
+      const duration = 6 + Math.random() * 8;
+      const delay = Math.random() * -12;
+      petal.style.animationDuration = duration + 's';
+      petal.style.animationDelay = delay + 's';
+      
+      const size = 10 + Math.random() * 15;
+      petal.style.width = size + 'px';
+      petal.style.height = size + 'px';
+      
+      // Random shape variants
+      const shapes = [
+        '100% 0 100% 100%',
+        '80% 20% 80% 80%',
+        '100% 10% 90% 90%'
+      ];
+      petal.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+      
+      container.appendChild(petal);
+    }
+  </script>
+</body>
+</html>

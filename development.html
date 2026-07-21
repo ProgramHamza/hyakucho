@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVELOPMENT ROADMAP — HYAKUCHŌ</title>
+  <meta name="description" content="Trace the evolution of Project Hyakucho: from relay-based 4-bit calculators to the autonomous SNN swarm platform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .timeline-container {
+      max-width: 900px;
+      margin: 8rem auto;
+      padding: 0 2rem;
+      position: relative;
+    }
+    .timeline-line {
+      position: absolute;
+      left: 50px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+      z-index: 1;
+    }
+    .timeline-fill {
+      position: absolute;
+      left: 50px;
+      top: 0;
+      width: 1px;
+      background: var(--sakura);
+      height: 0%;
+      z-index: 2;
+    }
+    .timeline-node {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 8rem;
+      position: relative;
+      z-index: 10;
+    }
+    .node-indicator {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--warm-white);
+      border: 2px solid var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      margin-left: 38px;
+      transition: all 0.4s var(--ease-premium);
+    }
+    .timeline-node.active .node-indicator {
+      border-color: var(--sakura-deep);
+      background: var(--sakura);
+      box-shadow: 0 0 15px var(--sakura);
+      transform: scale(1.15);
+    }
+    .node-content {
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      flex: 1;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.4s var(--ease-premium);
+    }
+    .timeline-node.active .node-content {
+      border-color: var(--sakura-pale);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 15px 35px rgba(247, 183, 195, 0.15);
+    }
+    .node-ver {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--sakura-deep);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.2em;
+    }
+    .node-title {
+      font-size: 1.6rem;
+      font-weight: 200;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+    }
+    .node-desc {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+    /* Renders/Sketches placeholder cards */
+    .node-sketch {
+      border: 1px dashed var(--text-light);
+      border-radius: 8px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-family: var(--font-en);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      background: rgba(0,0,0,0.01);
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link">Technology</a>
+      <a href="butterfly.html" class="nav-link">Butterfly</a>
+      <a href="swarm.html" class="nav-link">Swarm</a>
+      <a href="docking.html" class="nav-link">Docking</a>
+      <a href="development.html" class="nav-link active">Development</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="vision.html" class="nav-link">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Main Timeline Roadmap -->
+  <main class="timeline-container">
+    
+    <div class="timeline-line"></div>
+    <div class="timeline-fill" id="timeline-fill"></div>
+
+    <div style="text-align: center; margin-bottom: 6rem; position: relative; z-index: 10;">
+      <div class="part-num">Chronicles</div>
+      <h1 class="reveal-text">Development Timeline</h1>
+      <p class="desc-p" style="max-width: 500px; margin: 1.5rem auto 0 auto; font-size: 0.95rem;">
+        Tracing the development of micro-actuation systems and biological flight middleware from 2021 to 2035.
+      </p>
+    </div>
+
+    <!-- Node 1: 4-bit Calculator -->
+    <div class="timeline-node active">
+      <div class="node-indicator"></div>
+      <div class="node-content">
+        <div class="node-ver">Phase 01 / 2022</div>
+        <h3 class="node-title">The Relay Calculator</h3>
+        <p class="node-desc">
+          Building a full 4-bit mechanical calculator utilizing electromagnetic relays. This established the basic principles of circuit design and magnetic actuation dynamics.
+        </p>
+        <div class="node-sketch">
+          📁 [ENG-SKETCH // RELAY-CALC-4BIT]
+        </div>
+      </div>
+    </div>
+
+    <!-- Node 2: Anthropomorph -->
+    <div class="timeline-node">
+      <div class="node-indicator"></div>
+      <div class="node-content">
+        <div class="node-ver">Phase 02 / 2023</div>
+        <h3 class="node-title">Project Anthropomorph</h3>
+        <p class="node-desc">
+          A multi-degree-of-freedom bionic prosthetic hand with electromyography (EMG) control. Developed low-cost motor arrays and skeletal hand enclosures to bridge the gap between neurological signals and robotic joints.
+        </p>
+        <div class="node-sketch">
+          📁 [CAD-RENDER // ANTHROPOMORPH-EMG-V1]
+        </div>
+      </div>
+    </div>
+
+    <!-- Node 3: RAFUI -->
+    <div class="timeline-node">
+      <div class="node-indicator"></div>
+      <div class="node-content">
+        <div class="node-ver">Phase 03 / 2024</div>
+        <h3 class="node-title">RAFUI RF Interface</h3>
+        <p class="node-desc">
+          Designing a radio-frequency (RF) human-machine interface designed for high-interference industrial environments. Evaluated transmission wave propagation, noise filters, and physical wearability.
+        </p>
+        <div class="node-sketch">
+          📁 [PCB-LAYOUT // RAFUI-RF-TRANSCEIVER]
+        </div>
+      </div>
+    </div>
+
+    <!-- Node 4: Go2 SNN -->
+    <div class="timeline-node">
+      <div class="node-indicator"></div>
+      <div class="node-content">
+        <div class="node-ver">Phase 04 / 2026</div>
+        <h3 class="node-title">Neuromorphic Quadruped (Toyohashi)</h3>
+        <p class="node-desc">
+          R&D Internship at Toyohashi University of Technology under the Artificial Intelligence and Systems Laboratory. Created a Spiking Neural Network (SNN) locomotion middleware for a Unitree Go2 quadruped, evaluating how biological gait adjustments influence human social comfort.
+        </p>
+        <div class="node-sketch">
+          📁 [NEURO-DIAGRAM // SNN-GO2-MIDDLEWARE]
+        </div>
+      </div>
+    </div>
+
+    <!-- Node 5: Checkers UR5 -->
+    <div class="timeline-node">
+      <div class="node-indicator"></div>
+      <div class="node-content">
+        <div class="node-ver">Phase 05 / 2026</div>
+        <h3 class="node-title">Strategic HRI UR5 (NCR)</h3>
+        <p class="node-desc">
+          Developing game-theoretic minimax checkers strategies and computer vision loops under ROS2 at the National Center of Robotics (NaCeRo). Connected strategic neural layers to a UR5 KUKA arm to study complex human-robot cooperative play.
+        </p>
+        <div class="node-sketch">
+          📁 [GRAPH-VIS // COCOHRIP-MINIMAX-CHECKERS]
+        </div>
+      </div>
+    </div>
+
+    <!-- Node 6: HYAKUCHŌ -->
+    <div class="timeline-node">
+      <div class="node-indicator"></div>
+      <div class="node-content">
+        <div class="node-ver">Phase 06 / 2035</div>
+        <h3 class="node-title">Project HYAKUCHŌ</h3>
+        <p class="node-desc">
+          The culmination of a decade of research. Integrating sub-millimeter computer vision, SNN local boids networks, and inductive magnetic power loops into a high-fashion wearable butterfly swarm launcher.
+        </p>
+        <div class="node-sketch">
+          📁 [3D-CINEMATIC // HYAKUCHŌ-RELEASE-LOOP]
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="font-family: var(--font-en); font-weight:600; color:var(--text-dark); margin-bottom:1.2rem;">HYAKUCHŌ</h4>
+        <p style="font-size:0.8rem; color:var(--text-mid); max-width: 250px;">Unveiling the boundary between robotics and human beauty. Bratislava / Toyohashi — 2035.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="butterfly.html">Butterfly Anatomy</a></li>
+          <li><a href="swarm.html">Swarm Intelligence</a></li>
+          <li><a href="docking.html">Launch Nest</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="development.html">AAA Roadmap</a></li>
+          <li><a href="about.html">About Developer</a></li>
+          <li><a href="vision.html">Vision Manifesto</a></li>
+          <li><a href="contact.html">Contact Hub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2035 HYAKUCHŌ. All rights reserved. Slovakian Engineering.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (8 + Math.random() * 8) + 's';
+      petal.style.animationDelay = (Math.random() * -10) + 's';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // GSAP ScrollTrigger for Timeline filling and node activation
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to('#timeline-fill', {
+      scrollTrigger: {
+        trigger: '.timeline-container',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      height: '100%'
+    });
+
+    const nodes = document.querySelectorAll('.timeline-node');
+    nodes.forEach((node) => {
+      ScrollTrigger.create({
+        trigger: node,
+        start: 'top center+=100',
+        end: 'bottom center',
+        onEnter: () => {
+          nodes.forEach(n => n.classList.remove('active'));
+          node.classList.add('active');
+        },
+        onEnterBack: () => {
+          nodes.forEach(n => n.classList.remove('active'));
+          node.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

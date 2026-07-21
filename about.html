@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE FOUNDER — HYAKUCHŌ</title>
+  <meta name="description" content="Explore the portfolio and research achievements of Marek Hromada: Robotics researcher, hardware architect, and SNN developer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .profile-hero {
+      padding: 10rem 4vw 6rem 8vw;
+      display: flex;
+      gap: 5vw;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+    .profile-info {
+      flex: 1;
+      min-width: 320px;
+    }
+    .profile-photo-placeholder {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 1px dashed var(--sakura-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+    .profile-photo-stamp {
+      font-family: var(--font-jp);
+      font-size: 4rem;
+      font-weight: 200;
+      color: var(--sakura-deep);
+    }
+    /* Bio stats grid */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.5);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      border-radius: 12px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+    .stat-num {
+      font-size: 2.2rem;
+      font-weight: 100;
+      color: var(--sakura-deep);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+    /* Sections styling */
+    .about-section {
+      padding: 6rem 8vw;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    .about-card {
+      background: rgba(255,255,255,0.4);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.4s var(--ease-premium);
+    }
+    .about-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--sakura-pale);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 15px 35px rgba(247, 183, 195, 0.12);
+    }
+    .card-meta {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--sakura-deep);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+      color: var(--text-dark);
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    /* TikTok & Creator Card Custom */
+    .creator-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(247,183,195,0.15));
+      border: 1px solid var(--sakura-pale);
+    }
+    .creator-card:hover {
+      border-color: var(--sakura);
+      box-shadow: 0 15px 35px rgba(247, 183, 195, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link">Technology</a>
+      <a href="butterfly.html" class="nav-link">Butterfly</a>
+      <a href="swarm.html" class="nav-link">Swarm</a>
+      <a href="docking.html" class="nav-link">Docking</a>
+      <a href="development.html" class="nav-link">Development</a>
+      <a href="about.html" class="nav-link active">About</a>
+      <a href="vision.html" class="nav-link">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    
+    <!-- Hero Profile Section -->
+    <section class="profile-hero">
+      <div class="profile-info">
+        <div class="part-num">Architect & Builder</div>
+        <h1 class="reveal-text" style="margin-bottom: 1.5rem;">Marek Hromada</h1>
+        <p class="desc-p" style="max-width: 650px;">
+          An 18-year-old Slovakian researcher operating at the critical boundary where hardware mechanics, machine learning, and neuromorphic control systems converge. Merging robotics with structural design to create interactive physical systems.
+        </p>
+        
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-num">9k+</div>
+            <div class="stat-label">TikTok Followers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">~8.5ms</div>
+            <div class="stat-label">SNN Latency</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">1.8g</div>
+            <div class="stat-label">Swarm Weight</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="profile-photo-placeholder">
+        <div class="profile-photo-stamp">M</div>
+        <!-- Circular ring border -->
+        <svg style="position: absolute; inset: -15px; pointer-events: none; width: calc(100% + 30px); height: calc(100% + 30px); overflow: visible;">
+          <circle cx="50%" cy="50%" r="50%" fill="none" stroke="#F7B7C3" stroke-width="1" stroke-dasharray="8,8"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Research Experience -->
+    <section class="about-section">
+      <div class="section-title">Research Experience</div>
+      <div class="about-grid">
+        <!-- Toyohashi TUT -->
+        <div class="about-card">
+          <div class="card-meta">May 2026 — July 2026</div>
+          <h3 class="card-title">R&D Intern / Toyohashi University</h3>
+          <p class="card-desc">
+            Conducted research on neuromorphic control systems for quadrupedal robots at the AI and Systems Laboratory. Implemented a Spiking Neural Network (SNN) motor controller for the Unitree Go2, analyzing how spiking flight/step rates influence human social perception.
+          </p>
+        </div>
+        <!-- National Robotics Center -->
+        <div class="about-card">
+          <div class="card-meta">Jan 2026 — Present</div>
+          <h3 class="card-title">R&D Intern / National Center of Robotics</h3>
+          <p class="card-desc">
+            Developed computer vision tracking loops and game-theoretic minimax checkers strategies under ROS2 for the COCOHRIP project. Linked neural decision grids to a UR5 robotic arm, enabling real-time strategic cooperative gameplay.
+          </p>
+        </div>
+        <!-- Future Founders -->
+        <div class="about-card">
+          <div class="card-meta">Oct 2025 — Present</div>
+          <h3 class="card-title">Student / Future Founders by The Spot</h3>
+          <p class="card-desc">
+            Engaged in intensive technological entrepreneurship coaching, evaluating business strategies and product-market fitting for micro-actuation systems and biological robotics.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Independent Projects -->
+    <section class="about-section">
+      <div class="section-title">Independent Projects</div>
+      <div class="about-grid">
+        <!-- Project Anthropomorph -->
+        <div class="about-card">
+          <div class="card-meta">Bio-Robotics</div>
+          <h3 class="card-title">Project Anthropomorph</h3>
+          <p class="card-desc">
+            An affordable multi-degree-of-freedom bionic prosthetic hand. Features EMG-based control systems and customized skeletal joint mechanics to map neurological forearm signals directly into robotic fingers.
+          </p>
+        </div>
+        <!-- RAFUI -->
+        <div class="about-card">
+          <div class="card-meta">PCB / RF Design</div>
+          <h3 class="card-title">RAFUI HMI Interface</h3>
+          <p class="card-desc">
+            A wearable radio-frequency (RF) human-machine interface designed to perform reliably in heavy-interference industrial environments. Evaluated custom PCB telemetry, wave filters, and ergonomic wear configurations.
+          </p>
+        </div>
+        <!-- Relay Calculator -->
+        <div class="about-card">
+          <div class="card-meta">Actuation Basics</div>
+          <h3 class="card-title">4-bit Relay Calculator</h3>
+          <p class="card-desc">
+            Completed at age 14. An entirely mechanical calculator constructed from electromagnetic relays, establishing a foundational understanding of electromagnetic force fields and logic gates.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic & Creator Cards -->
+    <section class="about-section">
+      <div class="section-title">Synergies & Creators</div>
+      <div class="about-grid">
+        <!-- Education and Trumpet -->
+        <div class="about-card">
+          <div class="card-meta">Acoustics & Training</div>
+          <h3 class="card-title">Conservatory Trumpet studies</h3>
+          <p class="card-desc">
+            Studied classical Trumpet at Konzervatórium Bratislava (2021-2023). This musical background in resonant frequencies and breath control directly inspired our sub-gram voice-coil wing resonance algorithms.
+          </p>
+        </div>
+        <!-- TikTok @arterinema -->
+        <div class="about-card creator-card">
+          <div class="card-meta">Social Impact</div>
+          <h3 class="card-title">TikTok @arterinema</h3>
+          <p class="card-desc">
+            Sharing educational robotics, SNN design, and hardware development logs. Reached over 9,000+ followers and 2.5 million views, sparking interest in next-generation neuromorphic hardware among Gen-Z builders.
+          </p>
+        </div>
+        <!-- P-MAT -->
+        <div class="about-card">
+          <div class="card-meta">Social Responsibility</div>
+          <h3 class="card-title">P-MAT Science Volunteer</h3>
+          <p class="card-desc">
+            Organizing STEM seminars and natural sciences competitions for elementary and middle school students. Promoting collaborative engineering and physics principles in Slovakia.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="font-family: var(--font-en); font-weight:600; color:var(--text-dark); margin-bottom:1.2rem;">HYAKUCHŌ</h4>
+        <p style="font-size:0.8rem; color:var(--text-mid); max-width: 250px;">Unveiling the boundary between robotics and human beauty. Bratislava / Toyohashi — 2035.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="butterfly.html">Butterfly Anatomy</a></li>
+          <li><a href="swarm.html">Swarm Intelligence</a></li>
+          <li><a href="docking.html">Launch Nest</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="development.html">AAA Roadmap</a></li>
+          <li><a href="about.html">About Developer</a></li>
+          <li><a href="vision.html">Vision Manifesto</a></li>
+          <li><a href="contact.html">Contact Hub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2035 HYAKUCHŌ. All rights reserved. Slovakian Engineering.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (8 + Math.random() * 8) + 's';
+      petal.style.animationDelay = (Math.random() * -10) + 's';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

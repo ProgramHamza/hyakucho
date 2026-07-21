@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOCKING SYSTEM — HYAKUCHŌ</title>
+  <meta name="description" content="Inside the docking launchpad backpack. Witness the satisfying sequential return of the butterfly swarm.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .split-layout {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+    }
+    .text-column {
+      width: 45%;
+      padding: 10rem 4vw 6rem 8vw;
+      position: relative;
+      z-index: 10;
+      pointer-events: auto;
+    }
+    .canvas-column {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 55%;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .dock-step {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 5vh;
+      opacity: 0.15;
+      transform: translateY(30px);
+      transition: all 0.6s var(--ease-premium);
+    }
+    .dock-step.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .part-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--sakura-deep);
+      margin-bottom: 1rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+    .part-title {
+      font-size: 2rem;
+      font-weight: 200;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+    }
+    .part-desc {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    .satisfying-meter {
+      margin-top: 2rem;
+      background: rgba(0,0,0,0.04);
+      height: 4px;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+    .satisfying-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--sakura);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    .docking-status-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link">Technology</a>
+      <a href="butterfly.html" class="nav-link">Butterfly</a>
+      <a href="swarm.html" class="nav-link">Swarm</a>
+      <a href="docking.html" class="nav-link active">Docking</a>
+      <a href="development.html" class="nav-link">Development</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="vision.html" class="nav-link">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Interactive 3D Canvas Column -->
+  <div class="canvas-column" id="canvas-container"></div>
+
+  <!-- Scroll Column -->
+  <div class="split-layout">
+    
+    <div class="text-column">
+      
+      <!-- Step 0: Overview -->
+      <div class="dock-step active" id="step-overview">
+        <div class="part-num">Platform Base — The Nest</div>
+        <h2 class="part-title" style="font-size: 2.8rem; line-height: 1.1;">Launchpad Harness</h2>
+        <p class="part-desc">
+          An ergonomic, lightweight backpack serving as the home base and recovery system for the entire swarm. Designed with brushed aluminum joints, magnetic recovery panels, and inductive power cells.
+        </p>
+      </div>
+
+      <!-- Step 1: Open bays -->
+      <div class="dock-step" id="step-doors">
+        <div class="part-num">01 / DEPLOYMENT</div>
+        <h2 class="part-title">Electromagnetic Doors</h2>
+        <p class="part-desc">
+          Two curved panels slide open laterally to expose the launch bays. Driven by sub-millimeter voice coils, the doors transition from protective shells to aligned launching platforms in under 300ms.
+        </p>
+      </div>
+
+      <!-- Step 2: Inductive Slots -->
+      <div class="dock-step" id="step-slots">
+        <div class="part-num">02 / LIFE CYCLE</div>
+        <h2 class="part-title">Charging Cells</h2>
+        <p class="part-desc">
+          Features 100 individual magnetic docking bays. High-frequency inductive charging loops power each butterfly. Inductive contacts align automatically upon arrival, avoiding wiring or ports.
+        </p>
+      </div>
+
+      <!-- Step 3: satisfying return -->
+      <div class="dock-step" id="step-return">
+        <div class="part-num">03 / RECOVERY</div>
+        <h2 class="part-title">Satisfying Recall</h2>
+        <p class="part-desc">
+          When the recall signal is triggered, butterflies navigate back sequentially. Utilizing high-frequency localization transmitters, they align and dock into their specific slots one after another in a rhythmic, mechanical dance.
+        </p>
+        <div class="satisfying-meter">
+          <div class="satisfying-fill" id="dock-fill"></div>
+        </div>
+        <div class="docking-status-label">
+          <span>Recall Progress</span>
+          <span id="dock-count-label">0 % docked</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (8 + Math.random() * 8) + 's';
+      petal.style.animationDelay = (Math.random() * -10) + 's';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // GSAP ScrollTrigger Step Activation
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const steps = document.querySelectorAll('.dock-step');
+    steps.forEach((step, idx) => {
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => {
+          steps.forEach(s => s.classList.remove('active'));
+          step.classList.add('active');
+        },
+        onEnterBack: () => {
+          steps.forEach(s => s.classList.remove('active'));
+          step.classList.add('active');
+        }
+      });
+    });
+
+    // Three.js 3D Docking Animation setup
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 1.2, 5.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xf0e8d0, 1.0);
+    scene.add(hemiLight);
+
+    const sun = new THREE.DirectionalLight(0xfff3e5, 1.0);
+    sun.position.set(5, 8, 4);
+    sun.castShadow = true;
+    scene.add(sun);
+
+    // Create 3D Backpack
+    const backpackGroup = new THREE.Group();
+    scene.add(backpackGroup);
+
+    // Main Body
+    const matWhite = new THREE.MeshStandardMaterial({ color: 0xf5f0ed, roughness: 0.5, metalness: 0.05 });
+    const matAlum = new THREE.MeshStandardMaterial({ color: 0xd8d4d0, roughness: 0.25, metalness: 0.4 });
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.0, 0.35), matWhite);
+    backpackGroup.add(body);
+
+    // Aluminum top and bottom plates
+    const plateTop = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.04, 0.37), matAlum);
+    plateTop.position.y = 0.52;
+    backpackGroup.add(plateTop);
+    const plateBot = plateTop.clone();
+    plateBot.position.y = -0.52;
+    backpackGroup.add(plateBot);
+
+    // Hinge/doors
+    const leftPanel = new THREE.Group();
+    leftPanel.position.set(-0.2, 0, 0.18);
+    backpackGroup.add(leftPanel);
+    const leftDoor = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.8, 0.04), matAlum);
+    leftDoor.position.set(-0.19, 0, 0.02);
+    leftPanel.add(leftDoor);
+
+    const rightPanel = new THREE.Group();
+    rightPanel.position.set(0.2, 0, 0.18);
+    backpackGroup.add(rightPanel);
+    const rightDoor = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.8, 0.04), matAlum);
+    rightDoor.position.set(0.19, 0, 0.02);
+    rightPanel.add(rightDoor);
+
+    // Docking charging cells
+    const cellMat = new THREE.MeshStandardMaterial({ color: 0xf7b7c3, emissive: 0xf7b7c3, emissiveIntensity: 0 });
+    const cells = [];
+    const rows = 4;
+    const cols = 2;
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const cell = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.02, 6), cellMat.clone());
+        cell.rotation.x = Math.PI / 2;
+        cell.position.set(
+          (c === 0 ? -1 : 1) * 0.2,
+          0.3 - r * 0.2,
+          0.1
+        );
+        backpackGroup.add(cell);
+        cells.push(cell);
+      }
+    }
+
+    // Floating butterflies preparing to return
+    const bCount = 12;
+    const bGroup = new THREE.Group();
+    scene.add(bGroup);
+
+    const wingMat = new THREE.MeshStandardMaterial({ color: 0xffd9e2, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
+    const bGeo = new THREE.BoxGeometry(0.08, 0.01, 0.12);
+    const butterflies = [];
+
+    for (let i = 0; i < bCount; i++) {
+      const b = new THREE.Mesh(bGeo, wingMat);
+      bGroup.add(b);
+
+      // Random starting position high and far
+      const x = (Math.random() - 0.5) * 4;
+      const y = 1.5 + Math.random() * 2;
+      const z = 2.0 + Math.random() * 2;
+
+      butterflies.push({
+        mesh: b,
+        startPos: new THREE.Vector3(x, y, z),
+        dockPos: new THREE.Vector3(
+          (i % 2 === 0 ? -1 : 1) * 0.2,
+          0.3 - Math.floor(i / 2) * 0.2,
+          0.2
+        ),
+        isDocked: false
+      });
+    }
+
+    // Scroll triggering exploded state
+    let scrollProgress = 0;
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        scrollProgress = self.progress;
+      }
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+      const dt = Math.min(clock.getDelta(), 0.05);
+
+      // Rotate backpack slightly
+      backpackGroup.rotation.y = -0.3 + Math.sin(time * 0.2) * 0.08;
+
+      // 1. Doors open based on scroll progress
+      // Doors open between progress 0.2 and 0.5
+      const doorsProgress = Math.max(0, Math.min(1, (scrollProgress - 0.1) / 0.3));
+      leftPanel.rotation.y = -doorsProgress * 1.5;
+      rightPanel.rotation.y = doorsProgress * 1.5;
+
+      // 2. Butterflies start returning sequentially between progress 0.4 and 0.95
+      const returnProgress = Math.max(0, Math.min(1, (scrollProgress - 0.4) / 0.555));
+      const dockedCount = Math.floor(returnProgress * bCount);
+
+      // Update satisfying bars in the DOM
+      const fillPercent = returnProgress * 100;
+      const fillEl = document.getElementById('dock-fill');
+      const countEl = document.getElementById('dock-count-label');
+      if (fillEl && countEl) {
+        fillEl.style.width = fillPercent + '%';
+        countEl.textContent = Math.round(fillPercent) + ' % docked';
+      }
+
+      for (let i = 0; i < bCount; i++) {
+        const b = butterflies[i];
+        
+        // Target index check
+        if (i < dockedCount) {
+          // Docking phase (interpolating directly into slot)
+          b.mesh.position.lerp(b.dockPos, 0.12);
+          b.mesh.rotation.y = lerp(b.mesh.rotation.y, backpackGroup.rotation.y, 0.12);
+          b.mesh.rotation.x = lerp(b.mesh.rotation.x, Math.PI / 2, 0.1);
+          
+          if (!b.isDocked && b.mesh.position.distanceTo(b.dockPos) < 0.05) {
+            b.isDocked = true;
+            // Activate LED glow on cell
+            if (cells[i]) cells[i].material.emissiveIntensity = 2.0;
+          }
+        } else {
+          // Floating phase
+          const waveX = Math.sin(time * 2 + i) * 0.3;
+          const waveY = Math.cos(time * 1.5 + i) * 0.2;
+          const targetPos = b.startPos.clone().add(new THREE.Vector3(waveX, waveY, 0));
+          b.mesh.position.lerp(targetPos, 0.05);
+
+          // Fly around orientation
+          b.mesh.rotation.y = Math.sin(time + i) * 0.5;
+          b.mesh.rotation.x = Math.cos(time * 0.5) * 0.2;
+          b.isDocked = false;
+
+          // Turn off LED glow
+          if (cells[i]) cells[i].material.emissiveIntensity = 0;
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    // Helper lerp
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+  </script>
+</body>
+</html>

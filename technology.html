@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TECHNOLOGY — HYAKUCHŌ</title>
+  <meta name="description" content="Inside the technology powering Project Hyakucho — Swarm robotics, computer vision, and edge computing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .hero-tech {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+    #tech-canvas-container {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .tech-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6rem 8vw;
+      position: relative;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+    }
+    .tech-section:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .tech-info {
+      width: 40%;
+      min-width: 320px;
+    }
+    .tech-visual {
+      width: 50%;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.4);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.02);
+    }
+    .tech-number {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--sakura-deep);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+    .tech-title {
+      font-size: 2.2rem;
+      font-weight: 200;
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+    }
+    .tech-desc {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    /* Animated skeletal arm & telemetry details */
+    .telemetry-node {
+      font-size: 0.72rem;
+      font-family: var(--font-en);
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      text-transform: uppercase;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .telemetry-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--sakura);
+      border-radius: 50%;
+      animation: pulseDot 1.5s infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    svg.interactive-diagram {
+      width: 80%;
+      height: 80%;
+      overflow: visible;
+    }
+    svg.interactive-diagram path, svg.interactive-diagram circle {
+      transition: all 0.3s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link active">Technology</a>
+      <a href="butterfly.html" class="nav-link">Butterfly</a>
+      <a href="swarm.html" class="nav-link">Swarm</a>
+      <a href="docking.html" class="nav-link">Docking</a>
+      <a href="development.html" class="nav-link">Development</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="vision.html" class="nav-link">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- 3D Canvas Background -->
+  <div id="tech-canvas-container"></div>
+
+  <!-- Main Content -->
+  <main class="wrapper">
+    
+    <!-- Hero Section -->
+    <section class="hero-tech">
+      <div class="hero-pretitle" style="font-size:0.75rem; letter-spacing: 0.4em; color:var(--sakura-deep); margin-bottom:1.5rem; text-transform:uppercase; font-weight:500;">
+        System Architecture
+      </div>
+      <h1 class="reveal-text" style="text-align: center; margin-bottom: 2rem;">
+        Flocking Core &<br>Skeletal Synapse
+      </h1>
+      <p class="desc-p" style="max-width: 600px; text-align: center;">
+        HYAKUCHŌ is driven by the seamless convergence of sub-millimeter computer vision tracking and edge-computed biological flocking rules. No centralized server, no manual remote control.
+      </p>
+    </section>
+
+    <!-- Section 1: Gesture Recognition -->
+    <section class="tech-section" id="gesture-sec">
+      <div class="tech-info">
+        <div class="tech-number">01 / INTERFACE</div>
+        <h2 class="tech-title">Gesture Synapse</h2>
+        <p class="tech-desc">
+          Using real-time posture mapping operating at 120Hz, the system captures skeletal joint angles of the wearer's arm. This coordinates relative coordinate grids dynamically, transforming simple arm extensions, open palms, and sweeps into immediate swarm vector forces.
+        </p>
+        <div class="telemetry-node">
+          <div class="telemetry-dot"></div>
+          Status: Synapse Active (120 FPS)
+        </div>
+      </div>
+      <div class="tech-visual">
+        <!-- Interactive SVG skeletal arm -->
+        <svg class="interactive-diagram" viewBox="0 0 200 200">
+          <circle cx="40" cy="100" r="8" fill="#3a3535" id="joint-shoulder"/>
+          <line x1="40" y1="100" x2="100" y2="100" stroke="#3a3535" stroke-width="2" id="bone-arm"/>
+          <circle cx="100" cy="100" r="6" fill="#F7B7C3" id="joint-elbow"/>
+          <line x1="100" y1="100" x2="150" y2="100" stroke="#3a3535" stroke-width="2" id="bone-forearm"/>
+          <circle cx="150" cy="100" r="5" fill="#3a3535" id="joint-wrist"/>
+          <!-- Hand blobs -->
+          <circle cx="158" cy="94" r="2" fill="#e8919f"/>
+          <circle cx="162" cy="98" r="2" fill="#e8919f"/>
+          <circle cx="162" cy="102" r="2" fill="#e8919f"/>
+          <circle cx="158" cy="106" r="2" fill="#e8919f"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Section 2: Swarm Commander -->
+    <section class="tech-section" id="commander-sec">
+      <div class="tech-info">
+        <div class="tech-number">02 / DECENTRALIZED COGNITION</div>
+        <h2 class="tech-title">Swarm Commander</h2>
+        <p class="tech-desc">
+          Instead of single-drone piloting, the entire swarm behaves as a unified biological entity. Leveraging edge calculations of Craig Reynolds' Boids algorithms (Cohesion, Alignment, and Separation), the butterflies maintain spatial coherence while avoiding local obstacles.
+        </p>
+        <div class="telemetry-node">
+          <div class="telemetry-dot"></div>
+          Core: Emergent Vector Fields
+        </div>
+      </div>
+      <div class="tech-visual">
+        <svg class="interactive-diagram" viewBox="0 0 200 200">
+          <!-- Swarm node grid -->
+          <g id="swarm-nodes">
+            <circle cx="60" cy="60" r="3" fill="#F7B7C3" opacity="0.8"/>
+            <circle cx="140" cy="60" r="3" fill="#F7B7C3" opacity="0.8"/>
+            <circle cx="100" cy="100" r="5" fill="#e8919f"/>
+            <circle cx="80" cy="140" r="3" fill="#F7B7C3" opacity="0.8"/>
+            <circle cx="120" cy="140" r="3" fill="#F7B7C3" opacity="0.8"/>
+            <!-- Connections -->
+            <line x1="100" y1="100" x2="60" y2="60" stroke="#e8919f" stroke-dasharray="3,3" stroke-width="1"/>
+            <line x1="100" y1="100" x2="140" y2="60" stroke="#e8919f" stroke-dasharray="3,3" stroke-width="1"/>
+            <line x1="100" y1="100" x2="80" y2="140" stroke="#e8919f" stroke-dasharray="3,3" stroke-width="1"/>
+            <line x1="100" y1="100" x2="120" y2="140" stroke="#e8919f" stroke-dasharray="3,3" stroke-width="1"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Section 3: Localization & Telemetry -->
+    <section class="tech-section" id="telemetry-sec">
+      <div class="tech-info">
+        <div class="tech-number">03 / POSITIONING</div>
+        <h2 class="tech-title">Localization & Comm</h2>
+        <p class="tech-desc">
+          Four micro-beacons integrated into the launcher backpack emit high-frequency telemetry pulses. The swarm intercepts these pulses, calculating sub-millimeter relative positioning with an outstanding latency of under 8.5ms.
+        </p>
+        <div class="telemetry-node">
+          <div class="telemetry-dot"></div>
+          Latency: ~ 8.5ms (Sub-millimeter)
+        </div>
+      </div>
+      <div class="tech-visual">
+        <svg class="interactive-diagram" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="10" fill="none" stroke="#e8919f" stroke-width="1" id="beacon-ring-1"/>
+          <circle cx="100" cy="100" r="25" fill="none" stroke="#e8919f" stroke-width="1" id="beacon-ring-2"/>
+          <circle cx="100" cy="100" r="40" fill="none" stroke="#e8919f" stroke-width="1" id="beacon-ring-3"/>
+          <circle cx="100" cy="100" r="5" fill="#3a3535"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Section 4: Power & Docking -->
+    <section class="tech-section" id="power-sec">
+      <div class="tech-info">
+        <div class="tech-number">04 / LIFECYCLE</div>
+        <h2 class="tech-title">Inductive Recovery</h2>
+        <p class="tech-desc">
+          When the recall signal is triggered, electromagnetic nodes in the launchpad bays activate. The butterflies navigate individually, locking onto magnets to establish wireless inductive charging connections and prepare for the next release loop.
+        </p>
+        <div class="telemetry-node">
+          <div class="telemetry-dot"></div>
+          Charge System: Inductive Loop
+        </div>
+      </div>
+      <div class="tech-visual">
+        <svg class="interactive-diagram" viewBox="0 0 200 200">
+          <rect x="70" y="70" width="60" height="60" rx="10" fill="none" stroke="#3a3535" stroke-width="2"/>
+          <!-- Charging cells -->
+          <circle cx="85" cy="85" r="6" fill="#e8919f" id="cell-1"/>
+          <circle cx="115" cy="85" r="6" fill="#e8919f" id="cell-2"/>
+          <circle cx="85" cy="115" r="6" fill="#e8919f" id="cell-3"/>
+          <circle cx="115" cy="115" r="6" fill="#e8919f" id="cell-4"/>
+        </svg>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="font-family: var(--font-en); font-weight:600; color:var(--text-dark); margin-bottom:1.2rem;">HYAKUCHŌ</h4>
+        <p style="font-size:0.8rem; color:var(--text-mid); max-width: 250px;">Unveiling the boundary between robotics and human beauty. Bratislav / Toyohashi — 2035.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="butterfly.html">Butterfly Anatomy</a></li>
+          <li><a href="swarm.html">Swarm Intelligence</a></li>
+          <li><a href="docking.html">Launch Nest</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="development.html">AAA Roadmap</a></li>
+          <li><a href="about.html">About Developer</a></li>
+          <li><a href="vision.html">Vision Manifesto</a></li>
+          <li><a href="contact.html">Contact Hub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2035 HYAKUCHŌ. All rights reserved. Slovakian Engineering.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (8 + Math.random() * 8) + 's';
+      petal.style.animationDelay = (Math.random() * -10) + 's';
+      petal.style.width = (8 + Math.random() * 12) + 'px';
+      petal.style.height = (8 + Math.random() * 12) + 'px';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // GSAP ScrollTrigger Animations for Interactive Diagrams
+    gsap.registerPlugin(ScrollTrigger);
+
+    // 1. Arm joint flex animation on scroll
+    gsap.to('#joint-elbow', {
+      scrollTrigger: {
+        trigger: '#gesture-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      cx: 110,
+      cy: 130
+    });
+    gsap.to('#bone-arm', {
+      scrollTrigger: {
+        trigger: '#gesture-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      x2: 110,
+      y2: 130
+    });
+    gsap.to('#bone-forearm', {
+      scrollTrigger: {
+        trigger: '#gesture-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      x1: 110,
+      y1: 130,
+      x2: 160,
+      y2: 110
+    });
+    gsap.to('#joint-wrist', {
+      scrollTrigger: {
+        trigger: '#gesture-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      cx: 160,
+      cy: 110
+    });
+
+    // 2. Swarm nodes compression / expansion on scroll
+    gsap.to('#swarm-nodes circle', {
+      scrollTrigger: {
+        trigger: '#commander-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      scale: 1.5,
+      transformOrigin: 'center',
+      stagger: 0.1
+    });
+
+    // 3. Telemetry rings expanding
+    gsap.to('#beacon-ring-1', {
+      scrollTrigger: {
+        trigger: '#telemetry-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      r: 80,
+      opacity: 0
+    });
+    gsap.to('#beacon-ring-2', {
+      scrollTrigger: {
+        trigger: '#telemetry-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      r: 90,
+      opacity: 0,
+      delay: 0.2
+    });
+
+    // 4. Inductive recovering flashing
+    gsap.to('#cell-1, #cell-2, #cell-3, #cell-4', {
+      scrollTrigger: {
+        trigger: '#power-sec',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      },
+      fill: '#a8d4f0',
+      stagger: 0.1
+    });
+
+    // Three.js Abstract Telemetry Nodes Scene (fixed background)
+    const container = document.getElementById('tech-canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 15);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Create floating light points (low-poly telemetry nodes)
+    const nodeCount = 50;
+    const geometry = new THREE.IcosahedronGeometry(0.12, 0); // low-poly looks
+    const material = new THREE.MeshBasicMaterial({ color: 0xf7b7c3, transparent: true, opacity: 0.4 });
+    const instancedMesh = new THREE.InstancedMesh(geometry, material, nodeCount);
+
+    const dummy = new THREE.Object3D();
+    const nodesData = [];
+
+    for (let i = 0; i < nodeCount; i++) {
+      const x = (Math.random() - 0.5) * 20;
+      const y = (Math.random() - 0.5) * 12;
+      const z = (Math.random() - 0.5) * 8;
+      nodesData.push({
+        pos: new THREE.Vector3(x, y, z),
+        speed: 0.2 + Math.random() * 0.4,
+        rotSpeed: Math.random() * 0.02,
+        phase: Math.random() * Math.PI
+      });
+    }
+
+    scene.add(instancedMesh);
+
+    // Lines connecting nearby nodes
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xe8919f, transparent: true, opacity: 0.15 });
+    const lineGeometry = new THREE.BufferGeometry();
+    const linePositions = [];
+
+    for (let i = 0; i < nodeCount; i++) {
+      for (let j = i + 1; j < nodeCount; j++) {
+        if (nodesData[i].pos.distanceTo(nodesData[j].pos) < 4.5) {
+          linePositions.push(nodesData[i].pos.x, nodesData[i].pos.y, nodesData[i].pos.z);
+          linePositions.push(nodesData[j].pos.x, nodesData[j].pos.y, nodesData[j].pos.z);
+        }
+      }
+    }
+    lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(lines);
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+      const t = time * 0.001;
+
+      // Update positions with subtle floating noise
+      for (let i = 0; i < nodeCount; i++) {
+        const data = nodesData[i];
+        dummy.position.copy(data.pos);
+        dummy.position.y += Math.sin(t * data.speed + data.phase) * 0.15;
+        dummy.rotation.set(t * data.rotSpeed, t * data.rotSpeed, 0);
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+      }
+      instancedMesh.instanceMatrix.needsUpdate = true;
+
+      // Slowly rotate overall structure based on scroll
+      const scrollRatio = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      scene.rotation.y = scrollRatio * Math.PI * 0.5;
+      scene.rotation.x = scrollRatio * Math.PI * 0.1;
+
+      renderer.render(scene, camera);
+    }
+
+    animate(0);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>

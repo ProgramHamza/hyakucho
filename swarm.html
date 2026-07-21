@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWARM ROBOTICS — HYAKUCHŌ</title>
+  <meta name="description" content="Witness live kinetic swarm formations: halos, spirals, and orbits reacting to spatial human gesture simulation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .swarm-layout {
+      display: flex;
+      height: calc(100vh - 80px);
+      position: relative;
+      overflow: hidden;
+    }
+    .swarm-sidebar {
+      width: 30%;
+      min-width: 320px;
+      padding: 3rem 3vw;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgba(250, 246, 242, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: relative;
+      z-index: 10;
+    }
+    .swarm-stage {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 100%);
+    }
+    .formation-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 2rem;
+    }
+    .formation-btn {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1.4rem;
+      border-radius: 30px;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .formation-btn:hover, .formation-btn.active {
+      border-color: var(--sakura);
+      background: white;
+      color: var(--sakura-deep);
+      box-shadow: 0 5px 15px rgba(247, 183, 195, 0.15);
+      transform: translateX(4px);
+    }
+    .telemetry-panel {
+      background: rgba(255,255,255,0.4);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      font-family: var(--font-en);
+      font-size: 0.75rem;
+      margin-top: 2rem;
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      color: var(--text-mid);
+    }
+    .telemetry-val {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    .interactive-hint {
+      position: absolute;
+      top: 3vh;
+      right: 3vw;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      background: rgba(255,255,255,0.6);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      z-index: 100;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link">Technology</a>
+      <a href="butterfly.html" class="nav-link">Butterfly</a>
+      <a href="swarm.html" class="nav-link active">Swarm</a>
+      <a href="docking.html" class="nav-link">Docking</a>
+      <a href="development.html" class="nav-link">Development</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="vision.html" class="nav-link">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Interactive Swarm Dashboard Layout -->
+  <main class="swarm-layout">
+
+    <!-- Sidebar controls -->
+    <div class="swarm-sidebar">
+      <div>
+        <div class="part-num">Emergent Organism</div>
+        <h2 style="font-size: 1.8rem; font-weight: 200; letter-spacing: 0.05em; text-transform: uppercase;">Swarm Formations</h2>
+        <p style="font-size: 0.82rem; color: var(--text-mid); font-weight: 300; margin-top: 0.8rem; line-height: 1.6;">
+          Select a vector formation below. The swarm will align locally, transitioning smoothly to construct structural geometries.
+        </p>
+
+        <!-- Formations selection -->
+        <div class="formation-menu">
+          <button class="formation-btn active" data-formation="halo">Halo Formation <span>▸</span></button>
+          <button class="formation-btn" data-formation="sphere">Cohesion Sphere <span>▸</span></button>
+          <button class="formation-btn" data-formation="wave">Transverse Wave <span>▸</span></button>
+          <button class="formation-btn" data-formation="spiral">Double Helix <span>▸</span></button>
+          <button class="formation-btn" data-formation="petals">Sakura Petals <span>▸</span></button>
+          <button class="formation-btn" data-formation="orbit">Gravitational Orbit <span>▸</span></button>
+          <button class="formation-btn" data-formation="cloud">Living Cloud <span>▸</span></button>
+        </div>
+      </div>
+
+      <!-- Telemetry status -->
+      <div>
+        <div class="telemetry-panel">
+          <div class="telemetry-row">
+            <span>Swarm count:</span>
+            <span class="telemetry-val">100 / 100 UAVs</span>
+          </div>
+          <div class="telemetry-row">
+            <span>Flocking state:</span>
+            <span class="telemetry-val" id="telemetry-state">Halo</span>
+          </div>
+          <div class="telemetry-row">
+            <span>Cohesion force:</span>
+            <span class="telemetry-val">1.45 (Optimal)</span>
+          </div>
+          <div class="telemetry-row">
+            <span>Telecommunication:</span>
+            <span class="telemetry-val" style="color:#57a773;">99.8% Sync</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Canvas Stage -->
+    <div class="swarm-stage" id="swarm-canvas-container">
+      <div class="interactive-hint">Move cursor to steer swarm</div>
+    </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (8 + Math.random() * 8) + 's';
+      petal.style.animationDelay = (Math.random() * -10) + 's';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // Three.js Boids Sim / Swarm Formations Setup
+    const container = document.getElementById('swarm-canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 10);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Ambient Lighting
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xe8ddd4, 1.0);
+    scene.add(hemiLight);
+
+    // Create 100 low-poly butterfly instances
+    const butterflyCount = 100;
+    const wingMat = new THREE.MeshStandardMaterial({
+      color: 0xffd9e2,
+      emissive: 0xf7b7c3,
+      emissiveIntensity: 0.3,
+      side: THREE.DoubleSide,
+      roughness: 0.3
+    });
+    
+    // Custom flat low-poly butterfly geometry
+    const geometry = new THREE.BufferGeometry();
+    // Vertex positions for a simple low-poly butterfly (body line + left wing + right wing)
+    const vertices = new Float32Array([
+      // Left wing
+      0.0, 0.0, 0.0,
+      -0.12, 0.12, 0.04,
+      -0.15, -0.06, 0.0,
+      // Left wing lower
+      0.0, 0.0, 0.0,
+      -0.15, -0.06, 0.0,
+      -0.08, -0.15, -0.02,
+      // Right wing
+      0.0, 0.0, 0.0,
+      0.15, -0.06, 0.0,
+      0.12, 0.12, 0.04,
+      // Right wing lower
+      0.0, 0.0, 0.0,
+      0.08, -0.15, -0.02,
+      0.15, -0.06, 0.0,
+    ]);
+    geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+    geometry.computeVertexNormals();
+
+    const instancedMesh = new THREE.InstancedMesh(geometry, wingMat, butterflyCount);
+    scene.add(instancedMesh);
+
+    // Setup positions and velocities
+    const dummy = new THREE.Object3D();
+    const butterflies = [];
+    for (let i = 0; i < butterflyCount; i++) {
+      butterflies.push({
+        position: new THREE.Vector3((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5, (Math.random() - 0.5) * 3),
+        target: new THREE.Vector3(),
+        velocity: new THREE.Vector3(),
+        speed: 1.5 + Math.random() * 1.5,
+        noiseOffset: Math.random() * 100
+      });
+    }
+
+    // Mouse tracking for gesture interaction
+    const mouse = new THREE.Vector3();
+    const mousePlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    const raycaster = new THREE.Raycaster();
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
+      const y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+      
+      raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+      raycaster.ray.intersectPlane(mousePlane, mouse);
+    });
+
+    // Formations configuration
+    let currentFormation = 'halo';
+    const targets = {
+      halo: (i, count, time) => {
+        const theta = (i / count) * Math.PI * 2 + time * 0.2;
+        return new THREE.Vector3(Math.cos(theta) * 2.8, Math.sin(theta) * 2.8, Math.sin(theta * 3) * 0.3);
+      },
+      sphere: (i, count, time) => {
+        const phi = Math.acos(1 - 2 * (i / count));
+        const theta = Math.PI * (1 + Math.sqrt(5)) * i + time * 0.15;
+        return new THREE.Vector3(Math.sin(phi) * Math.cos(theta) * 2.2, Math.cos(phi) * 2.2, Math.sin(phi) * Math.sin(theta) * 2.2);
+      },
+      wave: (i, count, time) => {
+        const x = ((i / count) - 0.5) * 7;
+        const y = Math.sin(i * 0.4 + time * 2) * 1.2;
+        return new THREE.Vector3(x, y, Math.cos(i * 0.3 + time) * 0.5);
+      },
+      spiral: (i, count, time) => {
+        const h = ((i / count) - 0.5) * 5;
+        const theta = (i / count) * Math.PI * 6 + time * 0.8;
+        return new THREE.Vector3(Math.cos(theta) * 1.3, h, Math.sin(theta) * 1.3);
+      },
+      petals: (i, count, time) => {
+        const petalIndex = i % 5;
+        const within = Math.floor(i / 5) / (count / 5);
+        const theta = (petalIndex / 5) * Math.PI * 2 + Math.sin(within * Math.PI) * 0.4 + time * 0.1;
+        const radius = within * 3.0;
+        return new THREE.Vector3(Math.cos(theta) * radius, Math.sin(theta) * radius * 0.4, within * 0.5);
+      },
+      orbit: (i, count, time) => {
+        const theta = (i / count) * Math.PI * 2 + time * 0.5;
+        return new THREE.Vector3(Math.cos(theta) * 3.2, Math.sin(theta * 2) * 0.8, Math.sin(theta) * 1.5);
+      },
+      cloud: (i, count, time) => {
+        // Pseudo-random organic noise
+        const phase = i * 1.35;
+        return new THREE.Vector3(
+          Math.sin(time * 0.4 + phase) * 2.8,
+          Math.cos(time * 0.3 + phase * 0.8) * 1.8,
+          Math.sin(time * 0.2 + phase * 1.2) * 1.8
+        );
+      }
+    };
+
+    // Formations switching
+    const buttons = document.querySelectorAll('.formation-btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFormation = btn.dataset.formation;
+        document.getElementById('telemetry-state').textContent = btn.textContent.replace(' ▸', '');
+      });
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const time = clock.getElapsedTime();
+
+      // Compute targets & steer boids
+      for (let i = 0; i < butterflyCount; i++) {
+        const b = butterflies[i];
+        
+        // Base target from formation function
+        const baseTarget = targets[currentFormation](i, butterflyCount, time);
+        
+        // Steer target with mouse gesture (gravity attraction if mouse is active)
+        const mouseAttraction = new THREE.Vector3().subVectors(mouse, b.position);
+        const distToMouse = mouseAttraction.length();
+        if (distToMouse < 3.8) {
+          // Steer towards gesture
+          mouseAttraction.normalize().multiplyScalar(1.2 * (4 - distToMouse));
+          baseTarget.add(mouseAttraction);
+        }
+
+        b.target.copy(baseTarget);
+
+        // Steering logic
+        const steerForce = new THREE.Vector3().subVectors(b.target, b.position);
+        b.velocity.add(steerForce.multiplyScalar(dt * b.speed));
+        b.velocity.multiplyScalar(0.92); // drag
+
+        b.position.add(b.velocity);
+
+        // Orient dummy object
+        dummy.position.copy(b.position);
+        if (b.velocity.lengthSq() > 0.0001) {
+          const lookAtTarget = b.position.clone().add(b.velocity.clone().normalize());
+          dummy.lookAt(lookAtTarget);
+        }
+
+        // Flapping wings effect (scaling wings locally on Z/Y)
+        const flap = Math.sin(time * 15 + i) * 0.35;
+        dummy.scale.set(1.4, 1.4, 1.4 + flap);
+
+        dummy.updateMatrix();
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+      }
+
+      instancedMesh.instanceMatrix.needsUpdate = true;
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>

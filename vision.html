@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE MANIFESTO — HYAKUCHŌ</title>
+  <meta name="description" content="Read the official poetic manifesto of Project Hyakucho — merging technology with aesthetic wonder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .vision-layout {
+      min-height: 250vh; /* long scroll for slow reveal */
+      padding: 12rem 4vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .manifesto-title {
+      font-family: var(--font-en);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 100;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+    .manifesto-jp {
+      font-family: var(--font-jp);
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+      font-weight: 200;
+      color: var(--sakura-deep);
+      margin-bottom: 8rem;
+      letter-spacing: 0.2em;
+      text-align: center;
+    }
+    .manifesto-body {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 15vh; /* massive spacing for slow reads */
+      margin-bottom: 25vh;
+    }
+    .manifesto-line {
+      font-family: var(--font-en);
+      font-weight: 100;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      line-height: 2.0;
+      letter-spacing: 0.15em;
+      color: var(--text-mid);
+      opacity: 0.15;
+      transform: translateY(30px);
+      transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .manifesto-line.active {
+      opacity: 1;
+      transform: translateY(0);
+      color: var(--text-dark);
+    }
+    .manifesto-line.active strong {
+      color: var(--sakura-deep);
+      font-weight: 300;
+    }
+    .manifesto-line .jp-inline {
+      font-family: var(--font-jp);
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-top: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+    /* slow background petals overrides */
+    .sakura-bg .petal {
+      animation: fallSlow linear infinite;
+    }
+    @keyframes fallSlow {
+      0% {
+        transform: translateY(-20px) rotate(0deg) scale(0.6);
+        opacity: 0;
+      }
+      10% { opacity: 0.45; }
+      90% { opacity: 0.45; }
+      100% {
+        transform: translateY(105vh) translateX(150px) rotate(180deg) scale(0.6);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link">Technology</a>
+      <a href="butterfly.html" class="nav-link">Butterfly</a>
+      <a href="swarm.html" class="nav-link">Swarm</a>
+      <a href="docking.html" class="nav-link">Docking</a>
+      <a href="development.html" class="nav-link">Development</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="vision.html" class="nav-link active">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Main Vision Layout -->
+  <main class="vision-layout">
+    
+    <h1 class="manifesto-title">Project Hyakuchō</h1>
+    <div class="manifesto-jp">百蝶</div>
+
+    <div class="manifesto-body">
+      
+      <div class="manifesto-line active">
+        The butterflies did not obey because they were programmed.
+        <span class="jp-inline">プログラムされたから、従ったのではない。</span>
+      </div>
+
+      <div class="manifesto-line">
+        They obeyed because the <strong>illusion was perfect</strong>.
+        <span class="jp-inline">その幻影が、あまりに完璧だったからだ。</span>
+      </div>
+
+      <div class="manifesto-line">
+        A single gesture disturbed the stillness.
+        <span class="jp-inline">ただ一つの仕草が、静寂をかき乱す。</span>
+      </div>
+
+      <div class="manifesto-line">
+        The nest awakened.
+        <span class="jp-inline">巣が、目覚めた。</span>
+      </div>
+
+      <div class="manifesto-line">
+        One wing became ten.<br>Ten became a hundred.
+        <span class="jp-inline">一羽の羽が十になり、十が百になった。</span>
+      </div>
+
+      <div class="manifesto-line">
+        The air itself seemed to bloom.
+        <span class="jp-inline">大気そのものが、花開くようだった。</span>
+      </div>
+
+      <div class="manifesto-line">
+        They danced between light and shadow.
+        <span class="jp-inline">光と影の狭間で、彼らは舞った。</span>
+      </div>
+
+      <div class="manifesto-line">
+        Where the hand pointed,<br>the swarm followed.
+        <span class="jp-inline">手が指し示す場所へ、群れは従う。</span>
+      </div>
+
+      <div class="manifesto-line">
+        When the final command came,<br>they returned home.
+        <span class="jp-inline">最後の命令が下ると、彼らは家路へついた。</span>
+      </div>
+
+      <div class="manifesto-line">
+        In that moment,<br><strong>technology disappeared</strong>.
+        <span class="jp-inline">その瞬間、技術は姿を消した。</span>
+      </div>
+
+      <div class="manifesto-line" style="margin-bottom: 20vh;">
+        Only wonder remained.
+        <span class="jp-inline">ただ、驚嘆だけが残された。</span>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="font-family: var(--font-en); font-weight:600; color:var(--text-dark); margin-bottom:1.2rem;">HYAKUCHŌ</h4>
+        <p style="font-size:0.8rem; color:var(--text-mid); max-width: 250px;">Unveiling the boundary between robotics and human beauty. Bratislava / Toyohashi — 2035.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="butterfly.html">Butterfly Anatomy</a></li>
+          <li><a href="swarm.html">Swarm Intelligence</a></li>
+          <li><a href="docking.html">Launch Nest</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="development.html">AAA Roadmap</a></li>
+          <li><a href="about.html">About Developer</a></li>
+          <li><a href="vision.html">Vision Manifesto</a></li>
+          <li><a href="contact.html">Contact Hub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2035 HYAKUCHŌ. All rights reserved. Slovakian Engineering.</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 15; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (12 + Math.random() * 12) + 's'; // very slow
+      petal.style.animationDelay = (Math.random() * -15) + 's';
+      petal.style.width = (10 + Math.random() * 15) + 'px';
+      petal.style.height = (10 + Math.random() * 15) + 'px';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // GSAP ScrollTrigger to fade-in each line
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const lines = document.querySelectorAll('.manifesto-line');
+    lines.forEach((line) => {
+      ScrollTrigger.create({
+        trigger: line,
+        start: 'top 70%',
+        end: 'bottom 40%',
+        onEnter: () => line.classList.add('active'),
+        onLeaveBack: () => line.classList.remove('active')
+      });
+    });
+  </script>
+</body>
+</html>

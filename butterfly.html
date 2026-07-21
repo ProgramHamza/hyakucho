@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUTTERFLY ANATOMY — HYAKUCHŌ</title>
+  <meta name="description" content="Explore the internal component anatomy of the micro-UAV butterfly: Carbon fiber frame, ESP32, and voice-coil motor.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style>
+    .split-layout {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+    }
+    .text-column {
+      width: 45%;
+      padding: 10rem 4vw 6rem 8vw;
+      position: relative;
+      z-index: 10;
+      pointer-events: auto;
+    }
+    .canvas-column {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 55%;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .anatomy-step {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 5vh;
+      opacity: 0.15;
+      transform: translateY(30px);
+      transition: all 0.6s var(--ease-premium);
+    }
+    .anatomy-step.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .part-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--sakura-deep);
+      margin-bottom: 1rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+    .part-title {
+      font-size: 2rem;
+      font-weight: 200;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+    }
+    .part-desc {
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    .part-specs {
+      margin-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .part-spec-label {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .part-spec-val {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--text-dark);
+    }
+    .canvas-instructions {
+      position: absolute;
+      bottom: 5vh;
+      right: 5vw;
+      z-index: 100;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      pointer-events: auto;
+    }
+    .pulse-scroll {
+      width: 1px;
+      height: 20px;
+      background: var(--sakura);
+      animation: pulseScroll 1.5s infinite;
+    }
+    @keyframes pulseScroll {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.3; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Falling Petals Background -->
+  <div class="sakura-bg" id="sakura-bg"></div>
+
+  <!-- Page Loader -->
+  <div class="page-loader" id="loader">
+    <div class="loader-stamp">百蝶</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo-container">
+      <div class="logo-stamp">百</div>
+      <div class="logo-text">HYAKUCHŌ</div>
+    </a>
+    <nav id="navbar">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="technology.html" class="nav-link">Technology</a>
+      <a href="butterfly.html" class="nav-link active">Butterfly</a>
+      <a href="swarm.html" class="nav-link">Swarm</a>
+      <a href="docking.html" class="nav-link">Docking</a>
+      <a href="development.html" class="nav-link">Development</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="vision.html" class="nav-link">Vision</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <button class="menu-toggle" id="menu-btn" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Interactive 3D Canvas Column -->
+  <div class="canvas-column" id="canvas-container"></div>
+  <div class="canvas-instructions">
+    <div class="pulse-scroll"></div>
+    Scroll to explode anatomy
+  </div>
+
+  <!-- Scroll Column -->
+  <div class="split-layout">
+    
+    <div class="text-column">
+      
+      <!-- Step 0: Overview -->
+      <div class="anatomy-step active" id="step-overview">
+        <div class="part-num">Product Sheet — Micro-UAV</div>
+        <h2 class="part-title" style="font-size: 2.8rem; line-height: 1.1;">The Butterfly</h2>
+        <p class="part-desc">
+          An engineering marvel weighing under 1.8 grams. Every sub-component is optimized for biological flight patterns and inductive assembly. Scroll to deconstruct and examine the individual elements.
+        </p>
+      </div>
+
+      <!-- Step 1: Wings -->
+      <div class="anatomy-step" id="step-wings">
+        <div class="part-num">01 / LIFT SYSTEM</div>
+        <h2 class="part-title">Petal-like Wings</h2>
+        <p class="part-desc">
+          Crafted from custom bio-degradable composite layers with 72% light translucency. Engraved with glowing micro-veins serving as flight sensors and reinforcement lines, distributing air currents dynamically.
+        </p>
+        <div class="part-specs">
+          <div>
+            <div class="part-spec-label">Material</div>
+            <div class="part-spec-val">Translucent Polymer</div>
+          </div>
+          <div>
+            <div class="part-spec-label">Translucency</div>
+            <div class="part-spec-val">72 % (Sakura pink)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Carbon Frame -->
+      <div class="anatomy-step" id="step-frame">
+        <div class="part-num">02 / SKELETON</div>
+        <h2 class="part-title">Carbon Fiber Frame</h2>
+        <p class="part-desc">
+          A sub-millimeter carbon truss frame providing ultra-rigid support while maintaining negligible weight. The frame protects the core flight chip during high-speed kinetic formations.
+        </p>
+        <div class="part-specs">
+          <div>
+            <div class="part-spec-label">Construction</div>
+            <div class="part-spec-val">Sub-millimeter Truss</div>
+          </div>
+          <div>
+            <div class="part-spec-label">Weight contribution</div>
+            <div class="part-spec-val">0.26 grams</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: ESP32 Chip -->
+      <div class="anatomy-step" id="step-chip">
+        <div class="part-num">03 / COGNITION</div>
+        <h2 class="part-title">Core ESP32 Logic</h2>
+        <p class="part-desc">
+          Custom miniature microchip running local flight stabilization algorithms and wireless handshake protocols. It processes beacon localization telemetry to orient itself on the fly.
+        </p>
+        <div class="part-specs">
+          <div>
+            <div class="part-spec-label">MCU Core</div>
+            <div class="part-spec-val">ESP32 Custom Die</div>
+          </div>
+          <div>
+            <div class="part-spec-label">Frequency</div>
+            <div class="part-spec-val">240 MHz Dual Core</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Motors -->
+      <div class="anatomy-step" id="step-motors">
+        <div class="part-num">04 / ACTUATION</div>
+        <h2 class="part-title">Voice-Coil Motors</h2>
+        <p class="part-desc">
+          Microscopic voice-coil actuators utilizing high-density magnetic fields. They flap each wing independently at variable angles to perform vertical lifts, sharp banks, and sudden rolls.
+        </p>
+        <div class="part-specs">
+          <div>
+            <div class="part-spec-label">Type</div>
+            <div class="part-spec-val">Voice-Coil Actuators</div>
+          </div>
+          <div>
+            <div class="part-spec-label">Flap Rate</div>
+            <div class="part-spec-val">up to 48 Hz</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5: Battery & Contacts -->
+      <div class="anatomy-step" id="step-power">
+        <div class="part-num">05 / LIFECYCLE</div>
+        <h2 class="part-title">Battery & Contacts</h2>
+        <p class="part-desc">
+          A paper-thin solid-state battery located beneath the main chip. Inductive docking terminals at the bottom clip magnetically to the charging backpack slots, allowing fast, wireless recharging.
+        </p>
+        <div class="part-specs">
+          <div>
+            <div class="part-spec-label">Battery Type</div>
+            <div class="part-spec-val">Thin Solid-state</div>
+          </div>
+          <div>
+            <div class="part-spec-label">Charging Type</div>
+            <div class="part-spec-val">Magnetic Inductive</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+
+    // Page Loader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 600);
+    });
+
+    // Falling Sakura Petals Background Logic
+    const bgContainer = document.getElementById('sakura-bg');
+    for (let i = 0; i < 20; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.top = -Math.random() * 20 + 'px';
+      petal.style.animationDuration = (8 + Math.random() * 8) + 's';
+      petal.style.animationDelay = (Math.random() * -10) + 's';
+      petal.style.width = (8 + Math.random() * 12) + 'px';
+      petal.style.height = (8 + Math.random() * 12) + 'px';
+      bgContainer.appendChild(petal);
+    }
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const navbar = document.getElementById('navbar');
+    if (menuBtn && navbar) {
+      menuBtn.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+        const spans = menuBtn.querySelectorAll('span');
+        if (navbar.classList.contains('active')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // GSAP ScrollTrigger Step Activation
+    gsap.registerPlugin(ScrollTrigger);
+    
+    const steps = document.querySelectorAll('.anatomy-step');
+    steps.forEach((step, idx) => {
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => {
+          steps.forEach(s => s.classList.remove('active'));
+          step.classList.add('active');
+        },
+        onEnterBack: () => {
+          steps.forEach(s => s.classList.remove('active'));
+          step.classList.add('active');
+        }
+      });
+    });
+
+    // Three.js Interactive Butterfly Exploded View setup
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(0, 0.5, 6);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0xf0e8d0, 0.8);
+    scene.add(hemiLight);
+
+    const sun = new THREE.DirectionalLight(0xfff3e5, 1.2);
+    sun.position.set(3, 5, 4);
+    sun.castShadow = true;
+    scene.add(sun);
+
+    // Create Exploded Butterfly Parts Groups
+    const butterflyGroup = new THREE.Group();
+    scene.add(butterflyGroup);
+
+    // 1. Carbon Frame (Body base structure)
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x2d3130, roughness: 0.6, metalness: 0.7 });
+    const frameGeo = new THREE.CylinderGeometry(0.04, 0.02, 1.2, 5);
+    frameGeo.rotateX(Math.PI / 2);
+    const frame = new THREE.Mesh(frameGeo, frameMat);
+    butterflyGroup.add(frame);
+
+    // 2. Wings (Left and Right)
+    const wingMat = new THREE.MeshStandardMaterial({
+      color: 0xffd9e2,
+      emissive: 0xf7b7c3,
+      emissiveIntensity: 0.25,
+      transparent: true,
+      opacity: 0.7,
+      side: THREE.DoubleSide,
+      roughness: 0.2,
+      metalness: 0.1
+    });
+
+    const wingShape = new THREE.Shape();
+    wingShape.moveTo(0, 0);
+    wingShape.quadraticCurveTo(0.6, 0.6, 1.35, 0.45);
+    wingShape.quadraticCurveTo(1.8, 0.2, 1.5, -0.1);
+    wingShape.quadraticCurveTo(1.2, -0.4, 0.6, -0.3);
+    wingShape.quadraticCurveTo(0.15, -0.15, 0, 0);
+    const wingGeo = new THREE.ShapeGeometry(wingShape);
+
+    const leftWingPivot = new THREE.Group();
+    const lWingMesh = new THREE.Mesh(wingGeo.clone(), wingMat);
+    lWingMesh.scale.x = -1;
+    leftWingPivot.add(lWingMesh);
+    butterflyGroup.add(leftWingPivot);
+
+    const rightWingPivot = new THREE.Group();
+    const rWingMesh = new THREE.Mesh(wingGeo, wingMat);
+    rightWingPivot.add(rWingMesh);
+    butterflyGroup.add(rightWingPivot);
+
+    // 3. ESP32 Chip Board
+    const chipBoardMat = new THREE.MeshStandardMaterial({ color: 0x1a1c1d, roughness: 0.8 });
+    const chipBoard = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.015, 0.45), chipBoardMat);
+    const mcuMat = new THREE.MeshStandardMaterial({ color: 0xdcd8d5, metalness: 0.9, roughness: 0.1 });
+    const mcu = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.02, 0.12), mcuMat);
+    mcu.position.set(0, 0.015, -0.05);
+    chipBoard.add(mcu);
+    butterflyGroup.add(chipBoard);
+
+    // 4. Voice Coil Motors
+    const motorMat = new THREE.MeshStandardMaterial({ color: 0xb58e5c, metalness: 0.8, roughness: 0.2 });
+    const leftMotor = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.15, 6), motorMat);
+    leftMotor.rotation.z = Math.PI / 2;
+    const rightMotor = leftMotor.clone();
+    butterflyGroup.add(leftMotor);
+    butterflyGroup.add(rightMotor);
+
+    // 5. Solid State Battery
+    const battMat = new THREE.MeshStandardMaterial({ color: 0xc4c0bc, metalness: 0.5, roughness: 0.4 });
+    const battery = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.02, 0.35), battMat);
+    butterflyGroup.add(battery);
+
+    // 6. Docking Contacts
+    const contactMat = new THREE.MeshStandardMaterial({ color: 0xe0a934, metalness: 0.9 });
+    const contactL = new THREE.Mesh(new THREE.SphereGeometry(0.015, 6, 6), contactMat);
+    const contactR = contactL.clone();
+    butterflyGroup.add(contactL);
+    butterflyGroup.add(contactR);
+
+    // Explode animations trigger via GSAP ScrollTrigger
+    let explodeProgress = 0;
+
+    ScrollTrigger.create({
+      trigger: 'body',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        explodeProgress = self.progress;
+      }
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      // Interpolate Explode offsets based on progress
+      const factor = explodeProgress; // 0 to 1
+
+      // 1. Wings split on X and float up
+      leftWingPivot.position.x = -0.06 - factor * 0.9;
+      leftWingPivot.position.y = factor * 0.3;
+      rightWingPivot.position.x = 0.06 + factor * 0.9;
+      rightWingPivot.position.y = factor * 0.3;
+
+      // Gentle wing flapping that reduces as it explodes
+      const flapAngle = Math.sin(time * 8) * 0.35 * (1 - factor * 0.8);
+      leftWingPivot.rotation.y = flapAngle;
+      rightWingPivot.rotation.y = -flapAngle;
+
+      // 2. Chip moves UP on Y
+      chipBoard.position.y = 0.08 + factor * 0.7;
+
+      // 3. Motors split left & right
+      leftMotor.position.set(-0.06 - factor * 0.4, 0.02 + factor * 0.2, 0);
+      rightMotor.position.set(0.06 + factor * 0.4, 0.02 + factor * 0.2, 0);
+
+      // 4. Battery moves DOWN on Y
+      battery.position.y = -0.08 - factor * 0.6;
+
+      // 5. Docking contacts split down even further
+      contactL.position.set(-0.03, -0.3 - factor * 1.1, -0.1);
+      contactR.position.set(0.03, -0.3 - factor * 1.1, -0.1);
+
+      // Frame rotates slowly
+      butterflyGroup.rotation.y = time * 0.15 + factor * Math.PI * 0.5;
+      butterflyGroup.rotation.x = 0.1 + Math.sin(time * 0.3) * 0.08;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+  </script>
+</body>
+</html>
